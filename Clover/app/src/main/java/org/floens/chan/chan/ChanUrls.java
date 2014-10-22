@@ -23,84 +23,100 @@ import java.util.Locale;
 
 public class ChanUrls {
     private static String scheme;
+    private static ChanUrlsInterface chanUrls = new InfinityChanUrls();
+
+    public static void loadChan(String chan){
+        switch (chan){
+            case InfinityChanUrls.TAG:
+                chanUrls = new InfinityChanUrls();
+                break;
+            case HalfChanUrls.TAG:
+                chanUrls = new HalfChanUrls();
+                break;
+        }
+    }
+
+    public static String getChan(){
+        return chanUrls.getChan();
+    }
 
     public static void loadScheme(boolean useHttps) {
-        scheme = useHttps ? "https" : "http";
+        chanUrls.loadScheme(useHttps);
     }
 
     public static String getCatalogUrl(String board) {
-        return scheme + "://a.4cdn.org/" + board + "/catalog.json";
+        return chanUrls.getCatalogUrl(board);
     }
 
     public static String getPageUrl(String board, int pageNumber) {
-        return scheme + "://a.4cdn.org/" + board + "/" + (pageNumber + 1) + ".json";
+        return chanUrls.getPageUrl(board, pageNumber);
     }
 
     public static String getThreadUrl(String board, int no) {
-        return scheme + "://a.4cdn.org/" + board + "/thread/" + no + ".json";
+        return chanUrls.getThreadUrl(board, no);
     }
 
     public static String getCaptchaChallengeUrl() {
-        return scheme + "://www.google.com/recaptcha/api/challenge?k=6Ldp2bsSAAAAAAJ5uyx_lx34lJeEpTLVkP5k04qc";
+        return chanUrls.getCaptchaChallengeUrl();
     }
 
     public static String getCaptchaImageUrl(String challenge) {
-        return scheme + "://www.google.com/recaptcha/api/image?c=" + challenge;
+        return chanUrls.getCaptchaImageUrl(challenge);
     }
 
     public static String getImageUrl(String board, String code, String extension) {
-        return scheme + "://i.4cdn.org/" + board + "/" + code + "." + extension;
+        return chanUrls.getImageUrl(board, code, extension);
     }
 
-    public static String getThumbnailUrl(String board, String code) {
-        return scheme + "://t.4cdn.org/" + board + "/" + code + "s.jpg";
+    public static String getThumbnailUrl(String board, String code, String extension) {
+        return chanUrls.getThumbnailUrl(board, code, extension);
     }
 
     public static String getSpoilerUrl() {
-        return scheme + "://s.4cdn.org/image/spoiler.png";
+        return chanUrls.getSpoilerUrl();
     }
 
     public static String getCustomSpoilerUrl(String board, int value) {
-        return scheme + "://s.4cdn.org/image/spoiler-" + board + value + ".png";
+        return chanUrls.getCustomSpoilerUrl(board, value);
     }
 
     public static String getCountryFlagUrl(String countryCode) {
-        return scheme + "://s.4cdn.org/image/country/" + countryCode.toLowerCase(Locale.ENGLISH) + ".gif";
+        return chanUrls.getCountryFlagUrl(countryCode);
     }
 
     public static String getTrollCountryFlagUrl(String countryCode) {
-        return scheme + "://s.4cdn.org/image/country/troll/" + countryCode.toLowerCase(Locale.ENGLISH) + ".gif";
+        return chanUrls.getTrollCountryFlagUrl(countryCode);
     }
 
     public static String getBoardsUrl() {
-        return scheme + "://a.4cdn.org/boards.json";
+        return chanUrls.getBoardsUrl();
     }
 
     public static String getReplyUrl(String board) {
-        return "https://sys.4chan.org/" + board + "/post";
+        return chanUrls.getReplyUrl(board);
     }
 
     public static String getDeleteUrl(String board) {
-        return "https://sys.4chan.org/" + board + "/imgboard.php";
+        return chanUrls.getDeleteUrl(board);
     }
 
     public static String getBoardUrlDesktop(String board) {
-        return scheme + "://boards.4chan.org/" + board + "/";
+        return chanUrls.getBoardUrlDesktop(board);
     }
 
     public static String getThreadUrlDesktop(String board, int no) {
-        return scheme + "://boards.4chan.org/" + board + "/thread/" + no;
+        return chanUrls.getThreadUrlDesktop(board, no);
     }
 
     public static String getCatalogUrlDesktop(String board) {
-        return scheme + "://boards.4chan.org/" + board + "/catalog";
+        return chanUrls.getCatalogUrlDesktop(board);
     }
 
     public static String getPassUrl() {
-        return "https://sys.4chan.org/auth";
+        return chanUrls.getPassUrl();
     }
 
     public static String getReportUrl(String board, int no) {
-        return "https://sys.4chan.org/" + board + "/imgboard.php?mode=report&no=" + no;
+        return chanUrls.getReportUrl(board, no);
     }
 }
