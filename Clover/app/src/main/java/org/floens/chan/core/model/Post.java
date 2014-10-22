@@ -22,8 +22,10 @@ import android.text.TextUtils;
 
 import org.floens.chan.ChanApplication;
 import org.floens.chan.chan.ChanUrls;
+import org.floens.chan.chan.HalfChanUrls;
 import org.floens.chan.core.loader.ChanParser;
 import org.floens.chan.ui.view.PostView;
+import org.floens.chan.utils.Logger;
 import org.jsoup.parser.Parser;
 
 import java.util.ArrayList;
@@ -127,16 +129,26 @@ public class Post {
      * @return false if this data is invalid
      */
     public boolean finish() {
-        if (board == null)
+        if (board == null) {
+            Logger.wtf(this.getClass().getSimpleName(), "Board is null");
             return false;
+        }
 
-        if (no < 0 || resto < 0 || date == null || time < 0)
+        if (no < 0 || resto < 0 || date == null || time < 0) {
+            final String log = String.format("no: %d  resto: %d  date: %s  time: %d", no, resto, date, time);
+            Logger.wtf(this.getClass().getSimpleName(), log);
             return false;
+        }
 
         isOP = resto == 0;
 
-        if (isOP && (replies < 0 || images < 0))
-            return false;
+        if (ChanUrls.getChan() == HalfChanUrls.TAG) {
+            if (isOP && (replies < 0 || images < 0)) {
+                final String log = String.format("isop: %b  replies: %d  images: %d", isOP, replies, images);
+                Logger.wtf(this.getClass().getSimpleName(), log);
+                return false;
+            }
+        }
 
         if (filename != null && ext != null && imageWidth > 0 && imageHeight > 0 && tim != null) {
             hasImage = true;
