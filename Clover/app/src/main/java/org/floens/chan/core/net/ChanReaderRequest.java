@@ -29,6 +29,7 @@ import org.floens.chan.core.model.Post;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -300,6 +301,8 @@ public class ChanReaderRequest extends JsonReaderRequest<List<Post>> {
                     break;
                 case "time":
                     post.time = reader.nextLong();
+                    if (post.date == null)
+                        post.date = new Date(post.time * 1000).toString();
                     break;
                 case "ext":
                     post.ext = reader.nextString().replace(".", "");
