@@ -52,7 +52,10 @@ public class BoardsRequest extends JsonReaderRequest<List<Board>> {
 
                 reader.endArray();
             } else {
-                reader.skipValue();
+                Board board = read8chanBoardEntry(reader);
+                if (board != null) {
+                    list.add(board);
+                }
             }
         }
         reader.endObject();
@@ -63,6 +66,36 @@ public class BoardsRequest extends JsonReaderRequest<List<Board>> {
     @Override
     public Priority getPriority() {
         return Priority.LOW;
+    }
+
+    private Board read8chanBoardEntry(JsonReader reader) throws IOException {
+        reader.beginObject();
+        Board board = new Board();
+
+        while (reader.hasNext()) {
+            String key = reader.nextName();
+
+            switch (key) {
+                case "uri":
+                    board.value = reader.nextString();
+                    break;
+                case "title":
+                    board.key = reader.nextString();
+                    break;
+                case "subtitle":
+                    String subtitle = reader.nextString();
+                    if (subtitle != null && !subtitle.equals("")) {
+                        board.key = board.key + " - " + subtitle;
+                    }
+                    break;
+                default:
+                    reader.skipValue();
+                    break;
+            }
+        }
+
+        reader.endObject();
+        return board;
     }
 
     private Board readBoardEntry(JsonReader reader) throws IOException {
