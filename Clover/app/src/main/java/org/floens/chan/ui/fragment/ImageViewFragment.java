@@ -242,7 +242,7 @@ public class ImageViewFragment extends Fragment implements ThumbnailImageViewCal
             case R.id.action_image_save:
             case R.id.action_share:
                 ImageSaver.getInstance().saveImage(context, post.imageUrl,
-                        ChanPreferences.getImageSaveOriginalFilename() ? Long.toString(post.tim) : post.filename, post.ext,
+                        ChanPreferences.getImageSaveOriginalFilename() ? post.tim : post.filename, post.ext,
                         item.getItemId() == R.id.action_share);
                 break;
             default:

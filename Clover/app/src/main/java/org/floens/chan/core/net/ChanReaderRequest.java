@@ -296,7 +296,7 @@ public class ChanReaderRequest extends JsonReaderRequest<List<Post>> {
                     post.rawComment = reader.nextString();
                     break;
                 case "tim":
-                    post.tim = reader.nextLong();
+                    post.tim = reader.nextString();
                     break;
                 case "time":
                     post.time = reader.nextLong();

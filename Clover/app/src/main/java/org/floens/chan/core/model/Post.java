@@ -58,7 +58,7 @@ public class Post {
     public String name = "";
     public CharSequence comment = "";
     public String subject = "";
-    public long tim = -1;
+    public String tim;
     public String ext;
     public String filename;
     public int replies = -1;
@@ -138,9 +138,9 @@ public class Post {
         if (isOP && (replies < 0 || images < 0))
             return false;
 
-        if (filename != null && ext != null && imageWidth > 0 && imageHeight > 0 && tim >= 0) {
+        if (filename != null && ext != null && imageWidth > 0 && imageHeight > 0 && tim != null) {
             hasImage = true;
-            imageUrl = ChanUrls.getImageUrl(board, Long.toString(tim), ext);
+            imageUrl = ChanUrls.getImageUrl(board, tim, ext);
             filename = Parser.unescapeEntities(filename, false);
 
             if (spoiler) {
@@ -151,7 +151,7 @@ public class Post {
                     thumbnailUrl = ChanUrls.getSpoilerUrl();
                 }
             } else {
-                thumbnailUrl = ChanUrls.getThumbnailUrl(board, Long.toString(tim));
+                thumbnailUrl = ChanUrls.getThumbnailUrl(board, tim, ext);
             }
         }
 
