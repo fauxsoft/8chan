@@ -9,7 +9,7 @@ android {
         targetSdkVersion 19
 
         versionName "v1.2.0"
-        versionCode 39
+        versionCode 40
     }
 
     compileOptions {
