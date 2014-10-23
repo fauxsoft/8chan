@@ -591,18 +591,21 @@ public class ChanActivity extends BaseActivity implements AdapterView.OnItemSele
             String rawBoard = parts.get(0);
             int no = -1;
 
-            try {
-                no = Integer.parseInt(parts.get(2));
-            } catch (NumberFormatException e) {
+            String[] rawPost = parts.get(2).split("([.]html|$)");
+            if (rawPost.length >= 1) {
+                try {
+                    no = Integer.parseInt(rawPost[0]);
+                } catch (NumberFormatException e) {
+                }
             }
 
             int post = -1;
             String fragment = startUri.getFragment();
             if (fragment != null) {
-                int index = fragment.indexOf("p");
-                if (index >= 0) {
+                String[] rawFragment = fragment.split("(^|p?)");
+                if (rawFragment.length>=2) {
                     try {
-                        post = Integer.parseInt(fragment.substring(index + 1));
+                        post = Integer.parseInt(rawFragment[1]);
                     } catch (NumberFormatException e) {
                     }
                 }
