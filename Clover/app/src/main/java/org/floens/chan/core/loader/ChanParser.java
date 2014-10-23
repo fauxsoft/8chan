@@ -304,8 +304,8 @@ public class ChanParser {
         PostLinkable.Type t = null;
         String key = null;
         Object value = null;
-        if (classes.contains("quotelink")) {
-            if (href.contains("/thread/")) {
+        if (classes.contains("quotelink") || anchor.attr("onclick").contains("highlightReply")) {
+            if (href.contains("/thread/") || href.contains("/res/")) {
                 // link to another thread
                 PostLinkable.ThreadLink threadLink = null;
 
@@ -313,12 +313,31 @@ public class ChanParser {
                 if (slashSplit.length == 4) {
                     String board = slashSplit[1];
                     String nums = slashSplit[3];
-                    String[] numsSplitted = nums.split("#p");
+                    String[] numsSplitted = nums.split("([.]html)?#p?");
                     if (numsSplitted.length == 2) {
                         try {
                             int tId = Integer.parseInt(numsSplitted[0]);
                             int pId = Integer.parseInt(numsSplitted[1]);
-                            threadLink = new PostLinkable.ThreadLink(board, tId, pId);
+
+                            if (tId != post.resto) {
+                                threadLink = new PostLinkable.ThreadLink(board, tId, pId);
+                            } else {
+                                t = PostLinkable.Type.QUOTE;
+                                key = anchor.text();
+                                value = pId;
+                                post.repliesTo.add(pId);
+
+                                // Append OP when its a reply to OP
+                                if (pId == post.resto) {
+                                    key += " (OP)";
+                                }
+
+                                // Append You when it's a reply to an saved reply
+                                // todo synchronized
+                                if (ChanApplication.getDatabaseManager().isSavedReply(post.board, pId)) {
+                                    key += " (You)";
+                                }
+                            }
                         } catch (NumberFormatException e) {
                         }
                     }
@@ -333,7 +352,7 @@ public class ChanParser {
                 // normal quote
                 int id = -1;
 
-                String[] splitted = href.split("#p");
+                String[] splitted = href.split("#p?");
                 if (splitted.length == 2) {
                     try {
                         id = Integer.parseInt(splitted[1]);
