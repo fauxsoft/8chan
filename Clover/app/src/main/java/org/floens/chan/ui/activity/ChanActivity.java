@@ -408,8 +408,8 @@ public class ChanActivity extends BaseActivity implements AdapterView.OnItemSele
 
         setMenuItemEnabled(menu.findItem(R.id.action_pin), !slidable || !open);
 
-        setMenuItemEnabled(menu.findItem(R.id.action_reply), slidable);
-        setMenuItemEnabled(menu.findItem(R.id.action_reply_tablet), !slidable);
+        //setMenuItemEnabled(menu.findItem(R.id.action_reply), slidable);
+        //setMenuItemEnabled(menu.findItem(R.id.action_reply_tablet), !slidable);
 
         setMenuItemEnabled(menu.findItem(R.id.action_board_view_mode), !slidable || open);
 
