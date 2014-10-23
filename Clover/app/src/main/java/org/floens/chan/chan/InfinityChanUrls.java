@@ -57,6 +57,9 @@ public class InfinityChanUrls implements ChanUrlsInterface {
     }
 
     public String getThumbnailUrl(String board, String code, String extension) {
+        if (extension.equals("webm")) {
+            extension = "jpg";
+        }
         return scheme + "://8chan.co/" + board + "/thumb/" + code + "." + extension;
     }
 
