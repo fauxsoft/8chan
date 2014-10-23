@@ -93,7 +93,7 @@ public class InfinityChanUrls implements ChanUrlsInterface {
     }
 
     public String getThreadUrlDesktop(String board, int no) {
-        return scheme + "://8chan.co/" + board + "/res/" + no;
+        return scheme + "://8chan.co/" + board + "/res/" + no + ".html";
     }
 
     public String getCatalogUrlDesktop(String board) {
