@@ -48,6 +48,7 @@ import org.floens.chan.R;
 import org.floens.chan.core.loader.EndOfLineException;
 import org.floens.chan.core.loader.Loader;
 import org.floens.chan.core.manager.ThreadManager;
+import org.floens.chan.core.model.ChanThread;
 import org.floens.chan.core.model.Loadable;
 import org.floens.chan.core.model.Post;
 import org.floens.chan.ui.activity.BaseActivity;
@@ -57,7 +58,7 @@ import org.floens.chan.ui.view.LoadView;
 import org.floens.chan.utils.ThemeHelper;
 import org.floens.chan.utils.Utils;
 
-import java.util.List;
+import javax.net.ssl.SSLException;
 
 public class ThreadFragment extends Fragment implements ThreadManager.ThreadManagerListener, PostAdapter.PostAdapterListener {
     private BaseActivity baseActivity;
@@ -96,6 +97,10 @@ public class ThreadFragment extends Fragment implements ThreadManager.ThreadMana
 
     public void requestData() {
         threadManager.requestData();
+    }
+
+    public void requestNextData() {
+        threadManager.requestNextData();
     }
 
     public void reload() {
@@ -182,11 +187,7 @@ public class ThreadFragment extends Fragment implements ThreadManager.ThreadMana
     @Override
     public void onThumbnailClicked(Post source) {
         if (postAdapter != null) {
-            ImageViewActivity.setAdapter(postAdapter, source.no, threadManager);
-
-            Intent intent = new Intent(baseActivity, ImageViewActivity.class);
-            baseActivity.startActivity(intent);
-            baseActivity.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+            ImageViewActivity.launch(baseActivity, postAdapter, source.no, threadManager);
         }
     }
 
@@ -216,7 +217,7 @@ public class ThreadFragment extends Fragment implements ThreadManager.ThreadMana
     }
 
     @Override
-    public void onThreadLoaded(List<Post> posts, boolean append) {
+    public void onThreadLoaded(ChanThread thread) {
         if (postAdapter == null) {
             if (container != null) {
                 container.setView(createView());
@@ -224,12 +225,7 @@ public class ThreadFragment extends Fragment implements ThreadManager.ThreadMana
         }
 
         postAdapter.setStatusMessage(null);
-
-        if (append) {
-            postAdapter.appendList(posts);
-        } else {
-            postAdapter.setList(posts);
-        }
+        postAdapter.setThread(thread);
 
         if (highlightedPost >= 0) {
             threadManager.highlightPost(highlightedPost);
@@ -237,7 +233,7 @@ public class ThreadFragment extends Fragment implements ThreadManager.ThreadMana
             highlightedPost = -1;
         }
 
-        baseActivity.onThreadLoaded(loadable, posts);
+        baseActivity.onThreadLoaded(thread);
     }
 
     @Override
@@ -416,12 +412,14 @@ public class ThreadFragment extends Fragment implements ThreadManager.ThreadMana
     private String getLoadErrorText(VolleyError error) {
         String errorMessage;
 
-        if ((error instanceof NoConnectionError) || (error instanceof NetworkError)) {
-            errorMessage = getActivity().getString(R.string.thread_load_failed_network);
+        if (error.getCause() instanceof SSLException) {
+            errorMessage = getString(R.string.thread_load_failed_ssl);
+        } else if ((error instanceof NoConnectionError) || (error instanceof NetworkError)) {
+            errorMessage = getString(R.string.thread_load_failed_network);
         } else if (error instanceof ServerError) {
-            errorMessage = getActivity().getString(R.string.thread_load_failed_server);
+            errorMessage = getString(R.string.thread_load_failed_server);
         } else {
-            errorMessage = getActivity().getString(R.string.thread_load_failed_parsing);
+            errorMessage = getString(R.string.thread_load_failed_parsing);
         }
 
         return errorMessage;
