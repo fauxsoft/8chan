@@ -33,15 +33,15 @@ public class InfinityChanUrls implements ChanUrlsInterface {
     }
 
     public String getCatalogUrl(String board) {
-        return scheme + "://8chan.co/" + board + "/catalog.json";
+        return scheme + "://8ch.net/" + board + "/catalog.json";
     }
 
     public String getPageUrl(String board, int pageNumber) {
-        return scheme + "://8chan.co/" + board + "/" + (pageNumber + 1) + ".json";
+        return scheme + "://8ch.net/" + board + "/" + (pageNumber + 1) + ".json";
     }
 
     public String getThreadUrl(String board, int no) {
-        return scheme + "://8chan.co/" + board + "/res/" + no + ".json";
+        return scheme + "://8ch.net/" + board + "/res/" + no + ".json";
     }
 
     public String getCaptchaChallengeUrl() {
@@ -53,14 +53,14 @@ public class InfinityChanUrls implements ChanUrlsInterface {
     }
 
     public String getImageUrl(String board, String code, String extension) {
-        return scheme + "://8chan.co/" + board + "/src/" + code + "." + extension;
+        return scheme + "://8ch.net/" + board + "/src/" + code + "." + extension;
     }
 
     public String getThumbnailUrl(String board, String code, String extension) {
         if (extension.equals("webm")) {
             extension = "jpg";
         }
-        return scheme + "://8chan.co/" + board + "/thumb/" + code + "." + extension;
+        return scheme + "://8ch.net/" + board + "/thumb/" + code + "." + extension;
     }
 
     public String getSpoilerUrl() {
@@ -80,7 +80,7 @@ public class InfinityChanUrls implements ChanUrlsInterface {
     }
 
     public String getBoardsUrl() {
-        return scheme + "://8chan.co/boards.json";
+        return scheme + "://8ch.net/boards.json";
     }
 
     public String getReplyUrl(String board) {
@@ -92,15 +92,15 @@ public class InfinityChanUrls implements ChanUrlsInterface {
     }
 
     public String getBoardUrlDesktop(String board) {
-        return scheme + "://8chan.co/" + board + "/";
+        return scheme + "://8ch.net/" + board + "/";
     }
 
     public String getThreadUrlDesktop(String board, int no) {
-        return scheme + "://8chan.co/" + board + "/res/" + no + ".html";
+        return scheme + "://8ch.net/" + board + "/res/" + no + ".html";
     }
 
     public String getCatalogUrlDesktop(String board) {
-        return scheme + "://8chan.co/" + board + "/catalog.html";
+        return scheme + "://8ch.net/" + board + "/catalog.html";
     }
 
     public String getPassUrl() {
