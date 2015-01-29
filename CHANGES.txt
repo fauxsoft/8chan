@@ -1,3 +1,20 @@
+New in 1.2.6 (2015-01-28)
+- Fix for captcha image not loading
+
+
+New in 1.2.5 (2014-12-11)
+- Fix 4chan pass
+
+
+New in 1.2.4 (2014-12-10)
+- Properly fixed captchas
+- Other bug fixes
+
+
+New in 1.2.3 (2014-12-08)
+- Hotfix for captchas
+
+
 New in 1.2.2 (2014-10-26)
 - Fixed HTTPS errors on Android below Android 4.4
 

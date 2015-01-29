@@ -62,6 +62,10 @@ public class ChanUrls {
         return chanUrls.getCaptchaImageUrl(challenge);
     }
 
+    public static String getCaptchaFallback() {
+        return chanUrls.getCaptchaImageUrl("");
+    }
+
     public static String getImageUrl(String board, String code, String extension) {
         return chanUrls.getImageUrl(board, code, extension);
     }
